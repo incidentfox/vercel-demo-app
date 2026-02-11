@@ -24,14 +24,16 @@ export async function GET(request) {
     filtered = orders.filter(o => o.status === status)
   }
 
-  // Transform orders for response — this triggers the bug for ORD-1005
+  // Transform orders for response
   const result = filtered.map(order => ({
     id: order.id,
     customer_name: getCustomerDisplayName(order),
     status: order.status,
-    total: `$${order.total.toFixed(2)}`,
+    total: "$" + order.total.toFixed(2),
     items: order.items,
   }))
 
-  return NextResponse.json({ orders: result, count: result.length })
+  const response = NextResponse.json({ orders: result, count: result.length })
+  response.headers.set('X-Order-Count', String(result.length))
+  return response
 }
