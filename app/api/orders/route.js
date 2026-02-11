@@ -10,9 +10,8 @@ const orders = [
 ]
 
 function getCustomerDisplayName(order) {
-  // BUG: This will throw TypeError when order.customer is null
-  // "Cannot read properties of null (reading 'toUpperCase')"
-  return order.customer.toUpperCase()
+  // Fixed: Handle null customer gracefully
+  return order.customer ? order.customer.toUpperCase() : 'UNKNOWN CUSTOMER'
 }
 
 export async function GET(request) {
@@ -24,7 +23,7 @@ export async function GET(request) {
     filtered = orders.filter(o => o.status === status)
   }
 
-  // Transform orders for response — this triggers the bug for ORD-1005
+  // Transform orders for response — now handles null customers safely
   const result = filtered.map(order => ({
     id: order.id,
     customer_name: getCustomerDisplayName(order),
