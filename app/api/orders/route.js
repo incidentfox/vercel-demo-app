@@ -9,7 +9,7 @@ const orders = [
 ]
 
 function getCustomerDisplayName(order) {
-  return order.customer.toUpperCase()
+  return order.customer ? order.customer.toUpperCase() : 'UNKNOWN CUSTOMER'
 }
 
 export async function GET(request) {
