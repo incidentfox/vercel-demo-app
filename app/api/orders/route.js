@@ -10,9 +10,8 @@ const orders = [
 ]
 
 function getCustomerDisplayName(order) {
-  // BUG: This will throw TypeError when order.customer is null
-  // "Cannot read properties of null (reading 'toUpperCase')"
-  return order.customer.toUpperCase()
+  // Handle null/undefined customer values gracefully
+  return order.customer ? order.customer.toUpperCase() : 'UNKNOWN CUSTOMER'
 }
 
 export async function GET(request) {
