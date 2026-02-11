@@ -4,9 +4,10 @@ export default function Home() {
       <h1>Order Service API</h1>
       <p>Endpoints:</p>
       <ul>
-        <li><code>GET /api/orders</code> - List recent orders</li>
+        <li><code>GET /api/orders</code> - List all orders</li>
         <li><code>GET /api/orders?status=pending</code> - Filter by status</li>
       </ul>
+      <p style={{ color: '#666', fontSize: '0.8rem' }}>v1.1 — 0211-0138</p>
     </main>
   )
 }
