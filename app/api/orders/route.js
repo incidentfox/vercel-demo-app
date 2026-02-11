@@ -19,19 +19,28 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const status = searchParams.get('status')
 
+  // TODO: Add pagination support (page, limit query params)
+  const page = parseInt(searchParams.get('page') || '1', 10)
+  const limit = parseInt(searchParams.get('limit') || '50', 10)
+
   let filtered = orders
   if (status) {
     filtered = orders.filter(o => o.status === status)
   }
 
-  // Transform orders for response — this triggers the bug for ORD-1005
+  // Transform orders for response
   const result = filtered.map(order => ({
     id: order.id,
     customer_name: getCustomerDisplayName(order),
     status: order.status,
-    total: `$${order.total.toFixed(2)}`,
+    total: order.total.toFixed(2),
     items: order.items,
   }))
 
-  return NextResponse.json({ orders: result, count: result.length })
+  return NextResponse.json({
+    orders: result,
+    count: result.length,
+    page,
+    limit,
+  })
 }
